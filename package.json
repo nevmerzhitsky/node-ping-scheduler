@@ -1,0 +1,34 @@
+{
+  "name": "node-smart-pinger",
+  "version": "1.0.0",
+  "description": "HTTP ping of a server to check is down with a custom logic of the down state",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "node ./test/unit/run.js | faucet"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nevmerzhitsky/node-smart-pinger.git"
+  },
+  "pre-commit": [
+    "lint",
+    "test"
+  ],
+  "keywords": [],
+  "author": "Sergey Nevmerzhitsky",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nevmerzhitsky/node-smart-pinger/issues"
+  },
+  "homepage": "https://github.com/nevmerzhitsky/node-smart-pinger#readme",
+  "dependencies": {
+    "blue-tape": "^0.2.0",
+    "bunyan": "^1.8.1",
+    "eslint": "^2.8.0",
+    "eslint-config-eslint": "^3.0.0",
+    "faucet": "0.0.1",
+    "pre-commit": "^1.1.2",
+    "recursive-readdir-sync": "^1.0.6"
+  }
+}
