@@ -1,5 +1,6 @@
-module.exports = pinger
 const request = require('request')
+
+module.exports = pinger
 
 function pinger(task, callback) {
   request(task.url, resultConverter(task, new Date(), callback))

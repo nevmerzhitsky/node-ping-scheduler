@@ -1,9 +1,10 @@
+const fs = require('fs')
+const {dirname} = require('path')
+
 module.exports = {
   add,
   list
 }
-const fs = require('fs')
-const {dirname} = require('path')
 
 function readDb(dbPath) {
   if (!fs.existsSync(dbPath) && !fs.existsSync(dirname(dbPath))) {

@@ -1,6 +1,7 @@
-module.exports = scheduler
 const {add} = require('./history')
 let intervalId = null
+
+module.exports = scheduler
 
 function scheduler(config) {
   // Restart the daemon.

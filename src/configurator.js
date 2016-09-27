@@ -1,5 +1,6 @@
-module.exports = configurator
 const assert = require('assert')
+
+module.exports = configurator
 
 function configurator(jsonConfig) {
   assert.strictEqual(typeof jsonConfig.tasks, 'object', '"tasks" is required element')
