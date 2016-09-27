@@ -16,7 +16,7 @@ function webServer(config) {
       if (record.status) {
         buffer.push(`${taskName}: UP, last check: ${record.finish_time}`)
       } else {
-        buffer.push(`${taskName}: DOWN, check range: ${record.start_time} - ${record.finish_time}`)
+        buffer.push(`${taskName}: DOWN, check range: ${record.start_time} - ${record.finish_time}, last comment: ${record.last_comment}`)
       }
     }
 
