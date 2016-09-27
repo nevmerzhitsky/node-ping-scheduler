@@ -30,6 +30,7 @@
     "eslint-config-eslint": "^3.0.0",
     "faucet": "0.0.1",
     "pre-commit": "^1.1.2",
-    "recursive-readdir-sync": "^1.0.6"
+    "recursive-readdir-sync": "^1.0.6",
+    "request": "^2.75.0"
   }
 }
