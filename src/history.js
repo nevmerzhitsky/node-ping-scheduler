@@ -4,9 +4,8 @@ module.exports = {
 }
 const fs = require('fs')
 const {dirname} = require('path')
-const dbPath = 'data/history.json'
 
-function readDb() {
+function readDb(dbPath) {
   if (!fs.existsSync(dbPath) && !fs.existsSync(dirname(dbPath))) {
     throw new Error(`Please create "${dirname(dbPath)}" directory at the root of app for storing history`)
   }
@@ -23,20 +22,23 @@ function readDb() {
   return {}
 }
 
-function saveDb(data) {
+function saveDb(dbPath, data) {
   fs.writeFileSync(dbPath, JSON.stringify(data))
 }
 
-function add(taskName, task, pingResult) {
-  let db = readDb()
+function add(config, taskName, task, pingResult) {
+  let db = readDb(config.historyDbPath)
 
   if (typeof db[taskName] === 'undefined') {
     db[taskName] = []
   }
 
+  if (!pingResult.comment.length) {
+    delete pingResult.comment
+  }
   db[taskName].push(pingResult)
 
-  saveDb(db)
+  saveDb(config.historyDbPath, db)
 }
 
 function list() {

@@ -29,17 +29,17 @@ function tick(config) {
 
   // @TODO Do work in parallel
   for (let taskName in config.tasks) {
-    ping(taskName, config.tasks[taskName])
+    ping(config, taskName, config.tasks[taskName])
   }
 }
 
-function ping(taskName, task) {
+function ping(config, taskName, task) {
   // @TODO Do sanity of relative path
-  require(`./pinger/${task.type}.js`)(task, updateHistory(taskName, task))
+  require(`./pinger/${task.type}.js`)(task, updateHistory(config, taskName, task))
 }
 
-function updateHistory(taskName, task) {
+function updateHistory(config, taskName, task) {
   return function(result) {
-    add(taskName, task, result)
+    add(config, taskName, task, result)
   }
 }
