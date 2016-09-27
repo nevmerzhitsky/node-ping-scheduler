@@ -1,5 +1,5 @@
 const test = require('blue-tape')
-const configurator = require('../../src/configurator.js')
+const configurator = require('../../src/configurator')
 
 test('fail when config has no tasks element', (t) => {
   const json = generateJson((r) => delete r.tasks)

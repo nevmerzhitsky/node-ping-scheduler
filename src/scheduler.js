@@ -36,7 +36,7 @@ function tick(config) {
 
 function ping(config, taskName, task) {
   // @TODO Do sanity of relative path
-  require(`./pinger/${task.type}.js`)(task, updateHistory(config, taskName, task))
+  require(`./pinger/${task.type}`)(task, updateHistory(config, taskName, task))
 }
 
 function updateHistory(config, taskName, task) {
