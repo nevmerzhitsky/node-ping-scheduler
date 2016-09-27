@@ -1,6 +1,18 @@
 const test = require('blue-tape')
 const {getReport} = require('../../src/keeper')
 
+test('true status if not any events in history', (t) => {
+  const config = generateJson()
+  const history = {}
+  const report = getReport(config, history)
+  t.equal(
+    report['a task'].status,
+    true,
+    'Keeper should set true status on empty sequence of pings'
+  )
+  t.end()
+})
+
 test('false status if sequence of failures is equal to config failure_trigger', (t) => {
   const config = generateJson()
   const history = generateHistory()

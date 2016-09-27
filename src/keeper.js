@@ -18,6 +18,12 @@ function getReport(config, history) {
 }
 
 function calcStatus(task, basePingInterval, taskHistory) {
+  if (!taskHistory.length) {
+    return {
+      status: true,
+    }
+  }
+
   const lastEvent = taskHistory.reduce(
     (prev, current) => (prev.finish_time > current.finish_time) ? prev : current
   )
