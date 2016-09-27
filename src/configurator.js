@@ -13,6 +13,9 @@ function configurator(jsonConfig) {
     if (task.type == 'HTTP') {
       assert.strictEqual(typeof task.url, 'string', '"url" is required element of a HTTP task')
       task.response_code = task.response_code || []
+      if (!Array.isArray(task.response_code)) {
+        task.response_code = [task.response_code]
+      }
     } else if (task.type == 'PING') {
       assert.strictEqual(typeof task.host, 'string', '"host" is required element of a PING task')
     } else {

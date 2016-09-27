@@ -61,6 +61,15 @@ test('check default value of response_code for a HTTP task', (t) => {
   t.end()
 })
 
+test('check value of response_code for a HTTP task is an array', (t) => {
+  const json = generateJson((r) => r.tasks['HTTP task'].response_code = -1)
+  t.ok(
+    Array.isArray(configurator(json).tasks['HTTP task'].response_code),
+    '"response_code" of a HTTP task should be an array'
+  )
+  t.end()
+})
+
 test('fail when a PING task have no host', (t) => {
   const json = generateJson((r) => delete r.tasks['PING task'].host)
   t.throws(() => configurator(json),
