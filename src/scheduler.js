@@ -17,7 +17,7 @@ function scheduler(config) {
 }
 
 function startDaemon(config) {
-  intervalId = setInterval(tick, 60 * 1000, config)
+  intervalId = setInterval(tick, config.basePingInterval * 1000, config)
   tick(config) // Do work immediately
 }
 
