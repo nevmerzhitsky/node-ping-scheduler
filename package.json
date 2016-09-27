@@ -4,6 +4,7 @@
   "description": "HTTP ping of a server to check is down with a custom logic of the down state",
   "main": "index.js",
   "scripts": {
+    "start-test": "nodemon ./src/index.js",
     "start-daemon": "node ./src/index.js",
     "lint": "eslint .",
     "test": "node ./test/unit/run.js | faucet"
@@ -33,5 +34,8 @@
     "pre-commit": "^1.1.2",
     "recursive-readdir-sync": "^1.0.6",
     "request": "^2.75.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.10.2"
   }
 }
