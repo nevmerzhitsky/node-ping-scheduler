@@ -42,6 +42,6 @@ function add(config, taskName, task, pingResult) {
   saveDb(config.historyDbPath, db)
 }
 
-function list() {
-
+function list(config) {
+  return readDb(config.historyDbPath)
 }

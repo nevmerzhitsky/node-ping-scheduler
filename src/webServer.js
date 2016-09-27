@@ -1,11 +1,26 @@
 const app = require('koa')()
+const {list} = require('./history')
+const {getReport} = require('./keeper')
 
 module.exports = webServer
 
 function webServer(config) {
   app.use(errorHandler)
   app.use(function*() {
-    this.body = '<pre>\nStub HTML!\n</pre>'
+    let buffer = []
+    const report = getReport(config, list(config))
+
+    for (let taskName in report) {
+      const record = report[taskName]
+
+      if (record.status) {
+        buffer.push(`${taskName}: UP, last check: ${record.finish_time}`)
+      } else {
+        buffer.push(`${taskName}: DOWN, check range: ${record.start_time} - ${record.finish_time}`)
+      }
+    }
+
+    this.body = `<pre>\nPing results:\n${buffer.join('\n')}\n</pre>`
   })
   app.listen(config.webserver.port)
 }
