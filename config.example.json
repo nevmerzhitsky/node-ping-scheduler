@@ -1,0 +1,16 @@
+{
+  "webserver": {
+    "port": 80
+  },
+  "basePingInterval": 60,
+  "historyDbPath": "data/history.json",
+  "tasks": {
+    "My home page": {
+      "type": "HTTP",
+      "url": "http://example.com/",
+      "freq": 5,
+      "response_content": "Example Domain",
+      "failure_trigger": 3
+    }
+  }
+}
