@@ -8,10 +8,10 @@ test('fail when config has no tasks element', (t) => {
   t.end()
 })
 
-test('fail when tasks array is empty', (t) => {
+test('fail when tasks object is empty', (t) => {
   const json = generateJson((r) => r.tasks = [])
   t.throws(() => configurator(json),
-    new RegExp('"tasks" should be not empty array'), 'Configurator should throw error')
+    new RegExp('"tasks" should be not empty object'), 'Configurator should throw error')
   t.end()
 })
 
@@ -19,6 +19,13 @@ test('fail when a task have no type', (t) => {
   const json = generateJson((r) => delete r.tasks['HTTP task'].type)
   t.throws(() => configurator(json),
     new RegExp('"type" is required element of a task'), 'Configurator should throw error')
+  t.end()
+})
+
+test('fail when a task have unknown type', (t) => {
+  const json = generateJson((r) => r.tasks['UNKNOWN-TYPE task'] = { type: 'UNKNOWN' })
+  t.throws(() => configurator(json),
+    new RegExp('Unknown task type '), 'Configurator should throw error')
   t.end()
 })
 
@@ -40,6 +47,17 @@ test('fail when a HTTP task have no url', (t) => {
   const json = generateJson((r) => delete r.tasks['HTTP task'].url)
   t.throws(() => configurator(json),
     new RegExp('"url" is required element of a HTTP task'), 'Configurator should throw error')
+  t.end()
+})
+
+test('check default value of response_code for a HTTP task', (t) => {
+  const json = generateJson((r) => delete r.tasks['HTTP task'].response_code)
+  const config = configurator(json)
+  t.deepEqual(
+    config.tasks['HTTP task'].response_code,
+    [],
+    'Configurator should set default value of response_code'
+  )
   t.end()
 })
 
