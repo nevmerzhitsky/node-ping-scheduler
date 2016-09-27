@@ -3,9 +3,18 @@ module.exports = {
   list
 }
 const fs = require('fs')
+const {dirname} = require('path')
 const dbPath = 'data/history.json'
 
 function readDb() {
+  if (!fs.existsSync(dbPath) && !fs.existsSync(dirname(dbPath))) {
+    throw new Error(`Please create "${dirname(dbPath)}" directory at the root of app for storing history`)
+  }
+
+  if (!fs.existsSync(dbPath)) {
+    return {}
+  }
+
   const data = fs.readFileSync(dbPath, 'utf8')
   try {
     return JSON.parse(data)
