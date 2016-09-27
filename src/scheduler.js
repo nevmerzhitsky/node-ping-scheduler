@@ -1,4 +1,5 @@
 module.exports = scheduler
+const {add} = require('./history')
 let intervalId = null
 
 function scheduler(config) {
@@ -39,6 +40,6 @@ function ping(taskName, task) {
 
 function updateHistory(taskName, task) {
   return function(result) {
-    console.log('updateHistory!', taskName, result)
+    add(taskName, task, result)
   }
 }
