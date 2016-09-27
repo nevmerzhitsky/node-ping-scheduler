@@ -21,6 +21,9 @@ function resultConverter(task, startTime, callback) {
     } else if (task.response_code.length && task.response_code.indexOf(response.statusCode) == -1) {
       result.status = false
       result.comment = `Unexpected response code: ${response.statusCode}`
+    } else if (typeof task.response_content && body.indexOf(task.response_content) == -1) {
+      result.status = false
+      result.comment = `No requested content: ${task.response_content}`
     }
 
     callback(result)
