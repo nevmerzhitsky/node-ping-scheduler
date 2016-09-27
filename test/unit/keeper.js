@@ -2,9 +2,9 @@ const test = require('blue-tape')
 const {getReport} = require('../../src/keeper')
 
 test('false status if sequence of failures is equal to config failure_trigger', (t) => {
-  const tasks = generateTasks()
+  const config = generateJson()
   const history = generateHistory()
-  const report = getReport(tasks, history)
+  const report = getReport(config, history)
   t.equal(
     report['a task'].status,
     false,
@@ -14,13 +14,13 @@ test('false status if sequence of failures is equal to config failure_trigger', 
 })
 
 test('false status if sequence of failures is longer than config failure_trigger', (t) => {
-  const tasks = generateTasks()
+  const config = generateJson()
   const history = generateHistory((d) => d['a task'].push({
     "status": false,
     "start_time":  "2016-09-27T21:03:45.000Z",
     "finish_time": "2016-09-27T21:03:46.500Z"
   }))
-  const report = getReport(tasks, history)
+  const report = getReport(config, history)
   t.equal(
     report['a task'].status,
     false,
@@ -30,9 +30,9 @@ test('false status if sequence of failures is longer than config failure_trigger
 })
 
 test('true status if not all events in a range is failure', (t) => {
-  const tasks = generateTasks()
+  const config = generateJson()
   const history = generateHistory((d) => d['a task'][1].status = true)
-  const report = getReport(tasks, history)
+  const report = getReport(config, history)
   t.equal(
     report['a task'].status,
     true,
@@ -42,13 +42,13 @@ test('true status if not all events in a range is failure', (t) => {
 })
 
 test('true status if insufficient failure events in a range to the last event', (t) => {
-  const tasks = generateTasks()
+  const config = generateJson()
   const history = generateHistory((d) => d['a task'].push({
     "status": false,
     "start_time":  "2016-09-30T00:10:15.000Z",
     "finish_time": "2016-09-30T00:10:16.500Z"
   }))
-  const report = getReport(tasks, history)
+  const report = getReport(config, history)
   t.equal(
     report['a task'].status,
     true,
@@ -57,8 +57,9 @@ test('true status if insufficient failure events in a range to the last event', 
   t.end()
 })
 
-function generateTasks(mutation) {
+function generateJson(mutation) {
   let result = {
+    basePingInterval: 60,
     tasks: {
       "a task": {
         type: "HTTP",
