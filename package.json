@@ -4,6 +4,7 @@
   "description": "HTTP ping of a server to check is down with a custom logic of the down state",
   "main": "index.js",
   "scripts": {
+    "start-daemon": "node ./src/index.js",
     "lint": "eslint .",
     "test": "node ./test/unit/run.js | faucet"
   },

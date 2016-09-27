@@ -5,7 +5,8 @@ Smart pinger is a daemon, which do ping of servers from time to time and display
 Algorithm:
 
 1. Read configuration to check from disk: path -> valid config
-2. Do ping (HTTP/OS) as an URL/host: config -> result
-3. Add result to history of the URL/host: result -> history
-4. Check history in failure state: config, history -> failure event/null
-5. Update status table: failure -> null
+2. Setup ping scheduler: config -> scheduler
+    1. Do ping (HTTP/OS) of an URL/host: task config -> result
+    2. Add result to history of the URL/host: result -> history
+    3. Check history in failure state: config, history -> failure event/null
+    4. Update status table: failure -> null
