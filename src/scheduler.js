@@ -2,20 +2,21 @@ module.exports = scheduler
 let intervalId = null
 
 function scheduler(config) {
-  // Restarts the workers.
+  // Restart the daemon.
   process.on('SIGHUP', () => {
     stopDaemon()
     startDaemon()
   })
 
-  // Gracefully Shuts down the workers.
+  // Gracefully shut down the daemon.
   process.on('SIGTERM', stopDaemon)
 
   startDaemon()
 }
 
 function startDaemon() {
-  intervalId = setInterval(tick, 1000)
+  intervalId = setInterval(tick, 60 * 1000)
+  tick() // Do work immediately
 }
 
 function stopDaemon() {
