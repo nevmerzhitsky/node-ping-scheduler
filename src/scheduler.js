@@ -29,6 +29,7 @@ function tick(config) {
   console.log('TICK!')
 
   // @TODO Do work in parallel
+  // @TODO Consider of freq value
   for (let taskName in config.tasks) {
     ping(config, taskName, config.tasks[taskName])
   }
