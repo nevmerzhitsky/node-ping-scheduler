@@ -3,7 +3,14 @@ const request = require('request')
 module.exports = pinger
 
 function pinger(task, callback) {
-  request(task.url, resultConverter(task, new Date(), callback))
+  request(
+    {
+      url: task.url,
+      jar: true,
+      timeout: task.timeout * 1000,
+    },
+    resultConverter(task, new Date(), callback)
+  )
 }
 
 function resultConverter(task, startTime, callback) {
@@ -17,7 +24,7 @@ function resultConverter(task, startTime, callback) {
 
     if (error) {
       result.status = false
-      result.comment = error
+      result.comment = error.toString()
     } else if (task.response_code.length && task.response_code.indexOf(response.statusCode) == -1) {
       result.status = false
       result.comment = `Unexpected response code: ${response.statusCode}`
