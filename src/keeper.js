@@ -34,18 +34,21 @@ function calcStatus(task, basePingInterval, taskHistory) {
   )
   const actualRange = new range(actualStartTime, actualFinishTime)
 
-  let failuresCount = 0
+  let haveSuccess = false
   for (let i in taskHistory) {
     const record = taskHistory[i]
     const startM = moment(record.start_time)
     const finishM = moment(record.finish_time)
-    if (record.status || (!actualRange.contains(startM) && !actualRange.contains(finishM))) {
+    if (!actualRange.contains(startM) && !actualRange.contains(finishM)) {
       continue
     }
-    failuresCount++
+    if (record.status) {
+      haveSuccess = true
+      break
+    }
   }
 
-  if (failuresCount < task.failure_trigger) {
+  if (haveSuccess) {
     return {
       status: true,
       start_time: actualStartTime,

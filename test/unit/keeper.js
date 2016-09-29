@@ -56,7 +56,7 @@ test('true status if not all events in a range is failure', (t) => {
 test('true status if insufficient failure events in a range to the last event', (t) => {
   const config = generateJson()
   const history = generateHistory((d) => d['a task'].push({
-    "status": false,
+    "status": true,
     "start_time":  "2016-09-30T00:10:15.000Z",
     "finish_time": "2016-09-30T00:10:16.500Z"
   }))
