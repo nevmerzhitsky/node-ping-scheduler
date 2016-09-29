@@ -13,7 +13,7 @@ test('true status if not any events in history', (t) => {
   t.end()
 })
 
-test('false status if sequence of failures is equal to config failure_trigger', (t) => {
+test('false status if length of sequence of failures is equal to config failure_trigger', (t) => {
   const config = generateJson()
   const history = generateHistory()
   const report = getReport(config, history)
@@ -25,7 +25,7 @@ test('false status if sequence of failures is equal to config failure_trigger', 
   t.end()
 })
 
-test('false status if sequence of failures is longer than config failure_trigger', (t) => {
+test('false status if length of sequence of failures is longer than config failure_trigger', (t) => {
   const config = generateJson()
   const history = generateHistory((d) => d['a task'].push({
     "status": false,
@@ -43,7 +43,21 @@ test('false status if sequence of failures is longer than config failure_trigger
 
 test('true status if not all events in a range is failure', (t) => {
   const config = generateJson()
-  const history = generateHistory((d) => d['a task'][1].status = true)
+  const history = generateHistory((d) => d['a task'][d['a task'].length - 1].status = true)
+console.log('history', history)
+  const report = getReport(config, history)
+  t.equal(
+    report['a task'].status,
+    true,
+    'Keeper should set true status on sequence of success/failure pings'
+  )
+  t.end()
+})
+
+test('true status if last success event is far from the last failure event but still in the failure_trigger range', (t) => {
+  const config = generateJson()
+  const history = generateHistory((d) => d['a task'][0].status = true)
+  console.log('history', history)
   const report = getReport(config, history)
   t.equal(
     report['a task'].status,
@@ -76,7 +90,7 @@ function generateJson(mutation) {
       "a task": {
         type: "HTTP",
         url: "https://bo.rentsoft.ru/login/?lang=en",
-        freq: 1,
+        freq: 5,
         failure_trigger: 3
       }
     }
@@ -99,12 +113,12 @@ function generateHistory(mutation) {
         "finish_time": "2016-09-27T21:00:05.500Z"
       }, {
         "status": false,
-        "start_time":  "2016-09-27T21:01:29.000Z",
-        "finish_time": "2016-09-27T21:01:30.500Z"
+        "start_time":  "2016-09-27T21:05:29.000Z",
+        "finish_time": "2016-09-27T21:05:30.500Z"
       }, {
         "status": false,
-        "start_time":  "2016-09-27T21:02:48.000Z",
-        "finish_time": "2016-09-27T21:02:49.500Z"
+        "start_time":  "2016-09-27T21:10:48.000Z",
+        "finish_time": "2016-09-27T21:10:49.500Z"
       }
     ]
   }

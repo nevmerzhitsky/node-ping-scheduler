@@ -29,7 +29,7 @@ function calcStatus(task, basePingInterval, taskHistory) {
   )
   const actualFinishTime = moment(lastEvent.finish_time)
   const actualStartTime = moment(actualFinishTime).subtract(
-    basePingInterval * task.failure_trigger,
+    task.freq * task.failure_trigger * basePingInterval,
     'seconds'
   )
   const actualRange = new range(actualStartTime, actualFinishTime)
