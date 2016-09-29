@@ -12,7 +12,7 @@ function resultConverter(task, startTime, callback) {
       status: true,
       comment: '',
       start_time: startTime,
-      finish_time: new Date()
+      finish_time: new Date(),
     }
 
     if (error) {
