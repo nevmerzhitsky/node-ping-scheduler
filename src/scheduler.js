@@ -1,5 +1,6 @@
 const {add} = require('./history')
 let intervalId = null
+let nextPingCounter = new Map()
 
 module.exports = scheduler
 
@@ -26,16 +27,20 @@ function stopDaemon() {
 }
 
 function tick(config) {
-  console.log('TICK!')
+  nextPingCounter.forEach((value, key, map) => map.set(key, --value))
 
   // @TODO Do work in parallel
-  // @TODO Consider of freq value
   for (let taskName in config.tasks) {
+    if (nextPingCounter.get(taskName) > 0) {
+      continue
+    }
     ping(config, taskName, config.tasks[taskName])
   }
 }
 
 function ping(config, taskName, task) {
+  nextPingCounter.set(taskName, task.freq)
+
   // @TODO Do sanity of relative path
   require(`./pinger/${task.type}`)(task, updateHistory(config, taskName, task))
 }
