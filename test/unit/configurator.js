@@ -50,6 +50,13 @@ test('fail when a timeout have wrong type', (t) => {
   t.end()
 })
 
+test('fail when a timeout is not positive', (t) => {
+  const json = generateJson((r) => r.tasks['HTTP task'].timeout = 0)
+  t.throws(() => configurator(json),
+    new RegExp('"timeout" should be greater than zero'), 'Configurator should throw error')
+  t.end()
+})
+
 test('check default value of timeout for a task', (t) => {
   const json = generateJson((r) => delete r.tasks['HTTP task'].timeout)
   const config = configurator(json)

@@ -10,8 +10,10 @@ function configurator(jsonConfig) {
     const task = jsonConfig.tasks[taskName]
 
     assert.strictEqual(typeof task.type, 'string', '"type" is required element of a task')
-    task.timeout = task.timeout || 10
+
+    task.timeout = typeof task.timeout !== 'undefined' ? task.timeout : 10
     assert.strictEqual(typeof task.timeout, 'number', '"timeout" should be a number')
+    assert(task.timeout > 0, '"timeout" should be greater than zero')
 
     if (task.type == 'HTTP') {
       assert.strictEqual(typeof task.url, 'string', '"url" is required element of a HTTP task')
