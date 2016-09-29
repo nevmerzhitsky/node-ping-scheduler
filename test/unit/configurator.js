@@ -1,6 +1,41 @@
 const test = require('blue-tape')
 const configurator = require('../../src/configurator')
 
+test('fail when no web-server configuration', (t) => {
+  const json = generateJson((r) => delete r.webServer)
+  t.throws(() => configurator(json),
+    new RegExp('"webServer" is required element'), 'Configurator should throw error')
+  t.end()
+})
+
+test('fail when a port in web-server configuration have wrong type', (t) => {
+  const json = generateJson((r) => r.webServer.port = 'wrong value')
+  t.throws(() => configurator(json),
+    new RegExp('"webServer.port" should be a number'), 'Configurator should throw error')
+  t.end()
+})
+
+test('fail when a basePingInterval have wrong type', (t) => {
+  const json = generateJson((r) => r.basePingInterval = 'wrong value')
+  t.throws(() => configurator(json),
+    new RegExp('"basePingInterval" should be a number'), 'Configurator should throw error')
+  t.end()
+})
+
+test('fail when a historyDbPath have wrong type', (t) => {
+  const json = generateJson((r) => r.historyDbPath = -1)
+  t.throws(() => configurator(json),
+    new RegExp('"historyDbPath" should be a string'), 'Configurator should throw error')
+  t.end()
+})
+
+test('fail when a historyCleanupAge have wrong type', (t) => {
+  const json = generateJson((r) => r.historyCleanupAge = 'wrong value')
+  t.throws(() => configurator(json),
+    new RegExp('"historyCleanupAge" should be a number'), 'Configurator should throw error')
+  t.end()
+})
+
 test('fail when config has no tasks element', (t) => {
   const json = generateJson((r) => delete r.tasks)
   t.throws(() => configurator(json),
@@ -104,6 +139,12 @@ test('fail when a PING task have no host', (t) => {
 
 function generateJson(mutation) {
   let result = {
+    webServer: {
+      port: 80
+    },
+    basePingInterval: 60,
+    historyDbPath: "data/history.json",
+    historyCleanupAge: 86400,
     tasks: {
       "HTTP task": {
         type: "HTTP",

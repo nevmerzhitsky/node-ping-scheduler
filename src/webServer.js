@@ -22,7 +22,7 @@ function webServer(config) {
 
     this.body = `<pre>\nPing results:\n${buffer.join('\n')}\n</pre>`
   })
-  app.listen(config.webserver.port)
+  app.listen(config.webServer.port)
 }
 
 function* errorHandler(next) {

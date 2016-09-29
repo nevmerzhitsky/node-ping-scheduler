@@ -1,5 +1,5 @@
 {
-  "webserver": {
+  "webServer": {
     "port": 80
   },
   "basePingInterval": 60,

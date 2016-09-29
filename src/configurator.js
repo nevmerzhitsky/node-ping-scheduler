@@ -3,6 +3,14 @@ const assert = require('assert')
 module.exports = configurator
 
 function configurator(jsonConfig) {
+  assert.strictEqual(typeof jsonConfig.webServer, 'object', '"webServer" is required element')
+  assert.strictEqual(typeof jsonConfig.webServer.port, 'number', '"webServer.port" should be a number')
+  assert.strictEqual(typeof jsonConfig.basePingInterval, 'number', '"basePingInterval" should be a number')
+  assert.strictEqual(typeof jsonConfig.historyDbPath, 'string', '"historyDbPath" should be a string')
+  if (typeof jsonConfig.historyCleanupAge !== 'undefined') {
+    assert.strictEqual(typeof jsonConfig.historyCleanupAge, 'number', '"historyCleanupAge" should be a number')
+  }
+
   assert.strictEqual(typeof jsonConfig.tasks, 'object', '"tasks" is required element')
   assert(Object.keys(jsonConfig.tasks).length > 0, '"tasks" should be not empty object')
 
