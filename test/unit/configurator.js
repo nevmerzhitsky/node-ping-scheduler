@@ -43,6 +43,24 @@ test('fail when a task have no failure_trigger', (t) => {
   t.end()
 })
 
+test('fail when a timeout have wrong type', (t) => {
+  const json = generateJson((r) => r.tasks['HTTP task'].timeout = 'wrong value')
+  t.throws(() => configurator(json),
+    new RegExp('"timeout" should be a number'), 'Configurator should throw error')
+  t.end()
+})
+
+test('check default value of timeout for a task', (t) => {
+  const json = generateJson((r) => delete r.tasks['HTTP task'].timeout)
+  const config = configurator(json)
+  t.deepEqual(
+    config.tasks['HTTP task'].timeout,
+    10,
+    'Configurator should set default value of timeout'
+  )
+  t.end()
+})
+
 test('fail when a HTTP task have no url', (t) => {
   const json = generateJson((r) => delete r.tasks['HTTP task'].url)
   t.throws(() => configurator(json),
