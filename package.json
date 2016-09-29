@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start-test": "nodemon ./src/index.js",
-    "start-daemon": "node ./src/index.js",
+    "start-daemon": "pm2 start process.json",
     "lint": "eslint .",
-    "test": "node ./test/unit/run.js | faucet"
+    "test": "node ./test/unit/run.js | faucet",
+    "pm": "pm2"
   },
   "repository": {
     "type": "git",
@@ -34,6 +35,7 @@
     "moment": "^2.15.1",
     "moment-range": "^2.2.0",
     "net-ping": "^1.2.0",
+    "pm2": "^2.0.18",
     "pre-commit": "^1.1.2",
     "recursive-readdir-sync": "^1.0.6",
     "request": "^2.75.0"
