@@ -1,5 +1,6 @@
 const fs = require('fs')
 const {dirname} = require('path')
+const moment = require('moment')
 
 module.exports = {
   add,
@@ -23,7 +24,17 @@ function readDb(dbPath) {
   return {}
 }
 
-function saveDb(dbPath, data) {
+function saveDb(dbPath, data, historyCleanupAge) {
+  // Cleanup deprecated record
+  if (historyCleanupAge > 0) {
+    const expireBoundary = moment().subtract(historyCleanupAge, 'seconds')
+    for (let taskName in data) {
+      data[taskName] = data[taskName].filter(
+        (record) => moment(record.start_time).isAfter(expireBoundary)
+      )
+    }
+  }
+
   fs.writeFileSync(dbPath, JSON.stringify(data))
 }
 
@@ -39,7 +50,7 @@ function add(config, taskName, task, pingResult) {
   }
   db[taskName].push(pingResult)
 
-  saveDb(config.historyDbPath, db)
+  saveDb(config.historyDbPath, db, config.historyCleanupAge)
 }
 
 function list(config) {

@@ -4,6 +4,7 @@
   },
   "basePingInterval": 60,
   "historyDbPath": "data/history.json",
+  "historyCleanupAge": 86400,
   "tasks": {
     "My home page": {
       "type": "HTTP",
