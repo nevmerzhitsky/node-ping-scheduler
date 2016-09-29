@@ -8,11 +8,11 @@ function pinger(task, callback) {
     networkProtocol: ping.NetworkProtocol.IPv4,
     packetSize: 64,
     retries: 1,
-    timeout: 5000,
+    timeout: task.timeout * 1000,
   })
 
   resolve(task.host, 'A', function(err, addresses) {
-    const ip = '10.0.0.1' || addresses[0]
+    const ip = addresses[0]
     session.pingHost(ip, function (error, target, sent, rcvd) {
       let result = {
         status: true,
