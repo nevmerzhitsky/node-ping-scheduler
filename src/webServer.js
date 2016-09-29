@@ -14,9 +14,9 @@ function webServer(config) {
       const record = report[taskName]
 
       if (record.status) {
-        buffer.push(`${taskName}: UP, last check: ${record.finish_time}`)
+        buffer.push(`${taskName}: UP, last check: ${record.finish_time.format()}`)
       } else {
-        buffer.push(`${taskName}: DOWN, check range: ${record.start_time} - ${record.finish_time}, last comment: ${record.last_comment}`)
+        buffer.push(`${taskName}: DOWN, check range: ${record.start_time.format()} - ${record.finish_time.format()}, last comment: ${record.last_comment}`)
       }
     }
 
