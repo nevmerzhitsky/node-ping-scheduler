@@ -1,8 +1,42 @@
 Smart pinger can response error about a server is down not immediately after single HTTP ping returned error, but after series of failures in configured period!
 
-Smart pinger is a daemon, which do ping of servers from time to time and display all results on the status page.
+Smart pinger is a daemon, which do ping of servers from time to time and display all results on the status page. You can configure New Relic to check this page periodically.
 
-## Algorithm
+## Installation
+
+The app tested on Ubuntu 14.04. On Ubuntu 12 you get issue with installing `raw-socket` nodejs package.
+
+1. Create a user for run the app: `adduser pinger`, login by it
+2. [Optional] Add your SSH keys to `~/.ssh/authorized_keys`
+3. Install NodeJS Version Monitor: https://github.com/creationix/nvm
+4. Switch to the last node version (tested for v6.2+): `nvm install node`
+5. Checkout the app: `git clone https://github.com/nevmerzhitsky/node-smart-pinger`
+6. Go to `node-smart-pinger` dir and run `npm install`
+7. Rename `config.example.json` to `config.json` and change `port` in `webServer` section, setup tasks to ping
+8. Test app work and config is correct by `npm test`, the type `npm run start-test` and open in a browser http://your-domain:your-port
+9. Kill currect app process and run `npm run start-daemon`, check the browser again
+10. Add call to `npm run start-daemon` by the `pinger` user to autostart of your OS
+
+### Ubuntu autorun
+
+If you use nvm on Ubuntu then use this method. By the `pinger` user create `pinger_start.sh` script in the home directory:
+
+```bash
+#!/bin/bash
+
+cd /home/pinger/node-smart-pinger
+export NVM_DIR="/home/pinger/.nvm"
+source $NVM_DIR/nvm.sh
+npm run start-daemon
+```
+
+And add it by `root` user to the `/etc/rc.local` before last exit:
+
+```sh
+sudo -i -u oneundone /home/pinger/pinger_start.sh
+```
+
+## App algorithm
 
 Current algorithm is fully passive: client should do HTTP request to the status page to take acknowledge about a server is down.
 
