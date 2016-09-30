@@ -37,6 +37,23 @@ And add it by `root` user to the `/etc/rc.local` before last exit:
 sudo -i -u oneundone /home/pinger/pinger_start.sh
 ```
 
+### Troubleshooting
+
+You can face up with issue about Raw Sockets on Ubuntu for non-privileged user (`pinger`). Looks like this:
+
+```
+/home/pinger/node-smart-pinger/node_modules/raw-socket/index.js:47
+        this.wrap = new raw.SocketWrap (
+                    ^
+
+Error: Operation not permitted
+
+```
+
+Then you can run app by superuser (`root`), or read about [Linux Security Capabilities](http://blog.fpmurphy.com/2009/05/linux-security-capabilities.html) and add `cap_net_raw=ep` for node executable.
+
+To do this first you should find effective path to the node executable. Type `which node` by `pinger` user, then type `ls -la <path>` of this path. Continue run `ls` for each symlink. Then copy finish path and type next by `root` user: `setcap cap_net_raw=ep <path>`, then check result by `getcap <path>` and try `npm run start-test` by `pinger` user.
+
 ## Configuration
 
 By default app read config.json from the root of project. You can change path to config by env var `SMARTPINGER_CONFIG`. Value should be relative path from the `src` dir of app.
