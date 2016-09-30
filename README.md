@@ -12,6 +12,7 @@ The app tested on Ubuntu 14.04. On Ubuntu 12 you get issue with installing `raw-
 4. Switch to the last node version (tested for v6.2+): `nvm install node`
 5. Checkout the app: `git clone https://github.com/nevmerzhitsky/node-smart-pinger`
 6. Go to `node-smart-pinger` dir and run `npm install`
+    * On Windows you maybe need specify MS Visual Studio version (and install it before): `npm install --msvs_version=2013`. This required only to compile `raw-socket` package.
 7. Rename `config.example.json` to `config.json` and change `port` in `webServer` section, setup tasks to ping
 8. Test app work and config is correct by `npm test`, the type `npm run start-test` and open in a browser http://your-domain:your-port
 9. Kill currect app process and run `npm run start-daemon`, check the browser again
