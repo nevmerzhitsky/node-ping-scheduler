@@ -8,7 +8,7 @@ The app tested on Ubuntu 14.04. On Ubuntu 12 you get issue with installing `raw-
 
 1. Create a user for run the app: `adduser pinger`, login by it
 2. [Optional] Add your SSH keys to `~/.ssh/authorized_keys`
-3. Install NodeJS Version Monitor: https://github.com/creationix/nvm
+3. Install [Node Version Manager](https://github.com/creationix/nvm)
 4. Switch to the last node version (tested for v6.2+): `nvm install node`
 5. Checkout the app: `git clone https://github.com/nevmerzhitsky/node-smart-pinger`
 6. Go to `node-smart-pinger` dir and run `npm install`
@@ -36,6 +36,18 @@ And add it by `root` user to the `/etc/rc.local` before last exit:
 ```sh
 sudo -i -u oneundone /home/pinger/pinger_start.sh
 ```
+
+## Configuration
+
+By default app read config.json from the root of project. You can change path to config by env var `SMARTPINGER_CONFIG`. Value should be relative path from the `src` dir of app.
+
+### Restarting app
+
+After change the config you should restart the daemon:
+
+1. Go to `node-smart-pinger` dir
+2. Type `pm2 gracefulReload daemon` if pm2 package is installed globally (`npm install pm2 -g`)
+3. Or `pm2 kill` or `ps aux | grep ping` + `kill ...` then `npm run start-daemon`
 
 ## App algorithm
 
