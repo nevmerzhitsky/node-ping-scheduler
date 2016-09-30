@@ -52,7 +52,7 @@ Error: Operation not permitted
 
 Then you can run app by superuser (`root`), or read about [Linux Security Capabilities](http://blog.fpmurphy.com/2009/05/linux-security-capabilities.html) and add `cap_net_raw=ep` for node executable.
 
-To do this first you should find effective path to the node executable. Type `which node` by `pinger` user, then type `ls -la <path>` of this path. Continue run `ls` for each symlink. Then copy finish path and type next by `root` user: `setcap cap_net_raw=ep <path>`, then check result by `getcap <path>` and try `npm run start-test` by `pinger` user.
+To do this first you should find effective path to the node executable. Type `which node` by `pinger` user, then type `readlink <path>` and copy finish path and type next by `root` user: `setcap cap_net_raw=ep <path>`, then check result by `getcap <path>` and try `npm run start-test` by `pinger` user.
 
 ## Configuration
 
